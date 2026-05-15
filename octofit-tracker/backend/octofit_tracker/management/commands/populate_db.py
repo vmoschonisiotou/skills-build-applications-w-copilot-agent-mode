@@ -5,13 +5,14 @@ from django.utils import timezone
 class Command(BaseCommand):
     help = 'Populate the octofit_db database with test data'
 
+
     def handle(self, *args, **options):
-        # Clear existing data
+        # Clear existing data in dependency order to avoid PK issues
         Activity.objects.all().delete()
-        User.objects.all().delete()
-        Team.objects.all().delete()
         Workout.objects.all().delete()
         Leaderboard.objects.all().delete()
+        User.objects.all().delete()
+        Team.objects.all().delete()
 
         # Create teams
         marvel = Team.objects.create(name='Marvel')
